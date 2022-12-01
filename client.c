@@ -6,11 +6,11 @@
 /*   By: eboulhou <eboulhou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 16:24:55 by eboulhou          #+#    #+#             */
-/*   Updated: 2022/11/29 18:57:00 by eboulhou         ###   ########.fr       */
+/*   Updated: 2022/11/30 13:12:26 by eboulhou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "client.h"
+#include "mini_talk.h"
 
 static void	ft_bzero(char *str, int len)
 {
@@ -51,14 +51,7 @@ static void	send_sig(int sig, char *str)
 		s = ft_atobi(str[i]);
 		while (s[j] == '0' || s[j] == '1')
 		{
-			if (s[j] == '1')
-			{
-				kill(sig, SIGUSR2);
-			}
-			else if (s[j] == '0')
-			{
-				kill(sig, SIGUSR1);
-			}
+			kill(sig, s[j] - 18);
 			usleep(150);
 			j++;
 		}
@@ -91,6 +84,7 @@ static int	ft_atoi(char *str)
 
 int	main(int ac, char *argv[])
 {
+	printf("%d\n", getpid());
 	if (ac == 3)
 	{
 		send_sig(ft_atoi (argv[1]), argv[2]);
