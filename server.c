@@ -6,11 +6,11 @@
 /*   By: eboulhou <eboulhou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 18:04:36 by eboulhou          #+#    #+#             */
-/*   Updated: 2022/11/29 19:20:45 by eboulhou         ###   ########.fr       */
+/*   Updated: 2022/12/01 13:41:39 by eboulhou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "server.h"
+#include "mini_talk.h"
 
 int	ft_power_of_2(int pow)
 {
@@ -56,10 +56,7 @@ void	signal_user(int sig)
 	static int	i = 0;
 	int			c;
 
-	if (sig == SIGUSR1)
-		str[i] = '0';
-	if (sig == SIGUSR2)
-		str[i] = '1';
+	str[i] = sig % 10 + 48;
 	if (i == 6)
 	{
 		str[7] = 0;
@@ -72,15 +69,17 @@ void	signal_user(int sig)
 
 int	main(void)
 {
-	int	pid;
+	int					pid;
+	struct sigaction	action;
 
 	pid = getpid();
 	ft_putnbr(pid);
 	while (1)
 	{
-		signal(SIGUSR1, &signal_user);
-		signal(SIGUSR2, &signal_user);
+		action.sa_handler = &signal_user;
+		sigaction(SIGUSR1, &action, NULL);
+		sigaction(SIGUSR2, &action, NULL);
 		pause();
 	}
-	return (2);
+	return (0);
 }
