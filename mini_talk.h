@@ -6,7 +6,7 @@
 /*   By: eboulhou <eboulhou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 18:00:24 by eboulhou          #+#    #+#             */
-/*   Updated: 2022/11/30 18:49:00 by eboulhou         ###   ########.fr       */
+/*   Updated: 2022/12/02 10:10:44 by eboulhou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 # include <stdlib.h>
 # include <signal.h>
 # include <libc.h>
-# include <wchar.h>
 
-# include <stdio.h>
 
 #endif

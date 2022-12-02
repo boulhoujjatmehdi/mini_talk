@@ -6,7 +6,7 @@
 /*   By: eboulhou <eboulhou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 16:24:55 by eboulhou          #+#    #+#             */
-/*   Updated: 2022/11/30 13:12:26 by eboulhou         ###   ########.fr       */
+/*   Updated: 2022/12/01 13:40:27 by eboulhou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,9 @@ static void	send_sig(int sig, char *str)
 		s = ft_atobi(str[i]);
 		while (s[j] == '0' || s[j] == '1')
 		{
+			usleep(60);
 			kill(sig, s[j] - 18);
-			usleep(150);
+			usleep(60);
 			j++;
 		}
 		free(s);
@@ -84,7 +85,6 @@ static int	ft_atoi(char *str)
 
 int	main(int ac, char *argv[])
 {
-	printf("%d\n", getpid());
 	if (ac == 3)
 	{
 		send_sig(ft_atoi (argv[1]), argv[2]);

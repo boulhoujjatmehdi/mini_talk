@@ -6,7 +6,7 @@
 /*   By: eboulhou <eboulhou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 18:04:36 by eboulhou          #+#    #+#             */
-/*   Updated: 2022/11/30 14:40:08 by eboulhou         ###   ########.fr       */
+/*   Updated: 2022/12/01 13:41:39 by eboulhou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ void	signal_user(int sig)
 
 int	main(void)
 {
-	int	pid;
-	struct sigaction action;
+	int					pid;
+	struct sigaction	action;
 
 	pid = getpid();
 	ft_putnbr(pid);
