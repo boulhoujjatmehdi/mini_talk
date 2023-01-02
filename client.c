@@ -6,57 +6,36 @@
 /*   By: eboulhou <eboulhou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 16:24:55 by eboulhou          #+#    #+#             */
-/*   Updated: 2022/12/01 13:40:27 by eboulhou         ###   ########.fr       */
+/*   Updated: 2023/01/02 15:37:22 by eboulhou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_talk.h"
 
-static void	ft_bzero(char *str, int len)
-{
-	while (len--)
-	{
-		str[len] = '0';
-	}
-}
-
-static char	*ft_atobi(char c)
-{
-	char	*bin;
-	int		i;
-
-	i = 0;
-	bin = malloc(8);
-	ft_bzero(bin, 8);
-	while (c >= 1)
-	{
-		bin[6 - i] = c % 2 + '0';
-		c = c / 2;
-		i++;
-	}
-	bin[7] = 0;
-	return (bin);
-}
-
 static void	send_sig(int sig, char *str)
 {
 	int		i;
 	int		j;
-	char	*s;
 
 	i = 0;
 	while (str[i])
 	{
-		j = 0;
-		s = ft_atobi(str[i]);
-		while (s[j] == '0' || s[j] == '1')
+		j = 6;
+		printf("%c", str[i]);
+		fflush(stdout);
+		while (j >= 0)
 		{
+			if (str[i] & (1 << j))
+			{
+				kill(sig, SIGUSR2);
+			}	
+			else
+			{
+				kill(sig, SIGUSR1);
+			}
 			usleep(60);
-			kill(sig, s[j] - 18);
-			usleep(60);
-			j++;
+			j--;
 		}
-		free(s);
 		i++;
 	}
 }
@@ -89,5 +68,7 @@ int	main(int ac, char *argv[])
 	{
 		send_sig(ft_atoi (argv[1]), argv[2]);
 	}
+	else
+		printf("Example:./client [pid] [text]\n");
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: eboulhou <eboulhou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 18:04:36 by eboulhou          #+#    #+#             */
-/*   Updated: 2022/12/01 13:43:45 by eboulhou         ###   ########.fr       */
+/*   Updated: 2022/12/28 14:47:28 by eboulhou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,16 @@ void	signal_user(int sig, siginfo_t *info, void *vd)
 {
 	char		str[9];
 	static int	i = 0;
+	static int	last_pid;
+	static int	last_bit;
 	int			c;
 
+	if ((last_pid != info->si_pid && last_pid != 0) && last_bit != 0)
+	{
+		str[0] = 0;
+		i = 0;
+	}
+	last_bit = 1;
 	vd = NULL;
 	str[i] = sig % 10 + 48;
 	if (i == 7)
@@ -65,7 +73,9 @@ void	signal_user(int sig, siginfo_t *info, void *vd)
 		write (1, &c, 1);
 		i = -1;
 		kill(info->si_pid, SIGUSR1);
+		last_bit = 0;
 	}
+	last_pid = info->si_pid;
 	i++;
 }
 

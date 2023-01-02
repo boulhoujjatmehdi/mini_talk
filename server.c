@@ -6,11 +6,13 @@
 /*   By: eboulhou <eboulhou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 18:04:36 by eboulhou          #+#    #+#             */
-/*   Updated: 2022/12/01 13:41:39 by eboulhou         ###   ########.fr       */
+/*   Updated: 2022/12/08 19:44:26 by eboulhou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_talk.h"
+
+struct s_idx_arr	g_sa;
 
 int	ft_power_of_2(int pow)
 {
@@ -52,33 +54,29 @@ int	ft_bitoa(char *str)
 
 void	signal_user(int sig)
 {
-	char		str[8];
-	static int	i = 0;
 	int			c;
 
-	str[i] = sig % 10 + 48;
-	if (i == 6)
+	g_sa.str[g_sa.i] = sig % 10 + 48;
+	if (g_sa.i == 6)
 	{
-		str[7] = 0;
-		c = ft_bitoa (str);
+		g_sa.str[7] = 0;
+		c = ft_bitoa (g_sa.str);
 		write (1, &c, 1);
-		i = -1;
+		g_sa.i = -1;
 	}
-	i++;
+	g_sa.i++;
 }
 
 int	main(void)
 {
 	int					pid;
-	struct sigaction	action;
 
 	pid = getpid();
 	ft_putnbr(pid);
+	signal (SIGUSR1, signal_user);
+	signal (SIGUSR2, signal_user);
 	while (1)
-	{
-		action.sa_handler = &signal_user;
-		sigaction(SIGUSR1, &action, NULL);
-		sigaction(SIGUSR2, &action, NULL);
+	{	
 		pause();
 	}
 	return (0);

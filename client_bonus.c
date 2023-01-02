@@ -6,7 +6,7 @@
 /*   By: eboulhou <eboulhou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 16:24:55 by eboulhou          #+#    #+#             */
-/*   Updated: 2022/12/02 10:38:26 by eboulhou         ###   ########.fr       */
+/*   Updated: 2023/01/02 15:36:35 by eboulhou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static char	*ft_atobi(unsigned char c)
 	return (bin);
 }
 
-void	hand(int sig)
+void	response(int sig)
 {
 	g_counter++;
 	sig = 0;
@@ -59,7 +59,7 @@ static void	send_sig(int sig, char *str)
 			usleep(60);
 			kill(sig, s[j] - 18);
 			usleep(60);
-			signal(SIGUSR1, hand);
+			signal(SIGUSR1, response);
 			j++;
 		}
 		free(s);
