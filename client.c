@@ -6,7 +6,7 @@
 /*   By: eboulhou <eboulhou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 16:24:55 by eboulhou          #+#    #+#             */
-/*   Updated: 2023/01/02 15:37:22 by eboulhou         ###   ########.fr       */
+/*   Updated: 2023/01/02 18:44:16 by eboulhou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	send_sig(int sig, char *str)
 			{
 				kill(sig, SIGUSR1);
 			}
-			usleep(60);
+			usleep(120);
 			j--;
 		}
 		i++;

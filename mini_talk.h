@@ -6,7 +6,7 @@
 /*   By: eboulhou <eboulhou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 18:00:24 by eboulhou          #+#    #+#             */
-/*   Updated: 2022/12/21 13:31:47 by eboulhou         ###   ########.fr       */
+/*   Updated: 2023/01/02 18:44:25 by eboulhou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@
 
 struct s_idx_arr
 {
-	char	str[8];
-	int		i;
+	int	str;
+	int	last;
+	int	i;
 };
 
 #endif
