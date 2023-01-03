@@ -6,7 +6,7 @@
 /*   By: eboulhou <eboulhou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 18:00:24 by eboulhou          #+#    #+#             */
-/*   Updated: 2023/01/02 18:44:25 by eboulhou         ###   ########.fr       */
+/*   Updated: 2023/01/03 19:05:25 by eboulhou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,18 @@
 # define MINI_TALK_H
 
 # include <unistd.h>
-# include <stdlib.h>
 # include <signal.h>
-# include <stdio.h>
-# include <libc.h>
 
-struct s_idx_arr
+typedef struct s_idx_arr
 {
-	int	str;
-	int	last;
-	int	i;
-};
+	int		str;
+	int		last;
+	int		i;
+	int		j;
+	int		c;
+	int		bol;
+	int		size;
+	char	strr[5];
+}t_idx;
 
 #endif

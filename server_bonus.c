@@ -6,21 +6,13 @@
 /*   By: eboulhou <eboulhou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 18:04:36 by eboulhou          #+#    #+#             */
-/*   Updated: 2023/01/02 16:48:06 by eboulhou         ###   ########.fr       */
+/*   Updated: 2023/01/03 18:21:47 by eboulhou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_talk.h"
 
-int	ft_power_of_2(int pow)
-{
-	int	ret;
-
-	ret = 1;
-	while (pow--)
-		ret *= 2;
-	return (ret);
-}
+t_idx	g_;
 
 void	ft_putnbr(int c)
 {
@@ -34,49 +26,50 @@ void	ft_putnbr(int c)
 	write (1, &put, 1);
 }
 
-int	ft_bitoa(char *str)
+int	fill_buff(void *vd)
 {
-	int	i;
-	int	nb;
-
-	nb = 0;
-	i = 0;
-	while (i < 8)
-	{
-		if (str[7 - i] == '1')
-			nb += ft_power_of_2(i);
-		i++;
+	(void)vd;
+	if (g_.i == 8)
+	{		
+		if (g_.c >> 6 == 3)
+			g_.size = 2;
+		if (g_.c >> 5 == 7)
+			g_.size = 3;
+		if (g_.c >> 4 == 15)
+			g_.size = 4;
+		g_.strr[g_.j] = g_.c;
+		g_.strr[g_.j + 1] = 0;
+		g_.i = 0;
+		g_.j++;
+		g_.c = 0;
+		if (g_.j == g_.size)
+		{
+			write(1, g_.strr, g_.size);
+			if (g_.strr[0] == 0)
+				kill(g_.last, SIGUSR1);
+			g_.size = 1;
+			g_.j = 0;
+		}
 	}
-	return (nb);
+	return (0);
 }
 
 void	signal_user(int sig, siginfo_t *info, void *vd)
 {
-	char		str[9];
-	static int	i = 0;
-	static int	last_pid;
-	static int	last_bit;
-	int			c;
-
-	if ((last_pid != info->si_pid && last_pid != 0) && last_bit != 0)
+	if (g_.last != info->si_pid)
 	{
-		str[0] = 0;
-		i = 0;
+		g_.i = 0;
+		g_.size = 1;
+		g_.strr[0] = 0;
+		g_.j = 0;
+		g_.c = 0;
 	}
-	last_bit = 1;
-	vd = NULL;
-	str[i] = sig % 10 + 48;
-	if (i == 7)
-	{
-		str[8] = 0;
-		c = ft_bitoa (str);
-		write (1, &c, 1);
-		i = -1;
-		kill(info->si_pid, SIGUSR1);
-		last_bit = 0;
-	}
-	last_pid = info->si_pid;
-	i++;
+	g_.last = info->si_pid;
+	if (sig == SIGUSR2)
+		g_.c |= 1;
+	g_.i++;
+	fill_buff(vd);
+	g_.c <<= 1;
 }
 
 int	main(void)

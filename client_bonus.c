@@ -6,7 +6,7 @@
 /*   By: eboulhou <eboulhou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 16:24:55 by eboulhou          #+#    #+#             */
-/*   Updated: 2023/01/02 15:36:35 by eboulhou         ###   ########.fr       */
+/*   Updated: 2023/01/03 18:24:47 by eboulhou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,62 +14,47 @@
 
 int			g_counter;
 
-static char	*ft_atobi(unsigned char c)
+int	ft_strlen(char *str)
 {
-	char	*bin;
-	int		i;
-	int		len;
+	int	i;
 
-	bin = malloc(9);
-	len = 8;
-	while (len--)
-	{
-		bin[len] = '0';
-	}
 	i = 0;
-	while (c >= 1)
-	{
-		bin[7 - i] = c % 2 + '0';
-		c = c / 2;
+	while (str[i])
 		i++;
-	}
-	bin[8] = 0;
-	return (bin);
+	return (i);
 }
 
 void	response(int sig)
 {
-	g_counter++;
-	sig = 0;
+	(void)sig;
+	write(1, "delivered with sucess.\n", 24);
 }
 
-static void	send_sig(int sig, char *str)
+void	send_sig(int sig, char *str)
 {
 	int		i;
 	int		j;
-	char	*s;
 
 	i = 0;
-	while (str[i])
+	while (i <= ft_strlen(str))
 	{
-		j = 0;
-		s = ft_atobi((unsigned char)str[i]);
-		while (s[j] == '0' || s[j] == '1')
+		j = 7;
+		while (j >= 0)
 		{
 			usleep(60);
-			kill(sig, s[j] - 18);
-			usleep(60);
-			signal(SIGUSR1, response);
-			j++;
+			if (str[i] & (1 << j))
+				kill(sig, SIGUSR2);
+			else
+				kill(sig, SIGUSR1);
+			usleep(100);
+			j--;
+			signal(SIGUSR1, &response);
 		}
-		free(s);
 		i++;
 	}
-	if (i == g_counter)
-		write(1, "delivered with sucess.\n", 24);
 }
 
-static int	ft_atoi(char *str)
+int	ft_atoi(char *str)
 {
 	int	i;
 	int	nb;

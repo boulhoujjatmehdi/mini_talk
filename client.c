@@ -6,7 +6,7 @@
 /*   By: eboulhou <eboulhou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 16:24:55 by eboulhou          #+#    #+#             */
-/*   Updated: 2023/01/02 18:44:16 by eboulhou         ###   ########.fr       */
+/*   Updated: 2023/01/03 19:04:49 by eboulhou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,13 @@ static void	send_sig(int sig, char *str)
 	i = 0;
 	while (str[i])
 	{
-		j = 6;
-		printf("%c", str[i]);
-		fflush(stdout);
+		j = 7;
 		while (j >= 0)
 		{
 			if (str[i] & (1 << j))
 			{
 				kill(sig, SIGUSR2);
-			}	
+			}
 			else
 			{
 				kill(sig, SIGUSR1);
@@ -69,6 +67,6 @@ int	main(int ac, char *argv[])
 		send_sig(ft_atoi (argv[1]), argv[2]);
 	}
 	else
-		printf("Example:./client [pid] [text]\n");
+		write(1, "Example:./client [pid] [text]\n", 31);
 	return (1);
 }

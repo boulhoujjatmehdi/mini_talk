@@ -6,7 +6,7 @@
 /*   By: eboulhou <eboulhou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 18:04:36 by eboulhou          #+#    #+#             */
-/*   Updated: 2023/01/02 18:45:54 by eboulhou         ###   ########.fr       */
+/*   Updated: 2023/01/02 18:57:16 by eboulhou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	signal_user(int sig, siginfo_t *info, void *vd)
 		g_sa.str = 0;
 	}
 	g_sa.str |= sig % 10;
-	if (g_sa.i == 6)
+	if (g_sa.i == 7)
 	{
 		write (1, &g_sa.str, 1);
 		g_sa.i = -1;
