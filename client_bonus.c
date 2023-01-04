@@ -6,7 +6,7 @@
 /*   By: eboulhou <eboulhou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 16:24:55 by eboulhou          #+#    #+#             */
-/*   Updated: 2023/01/03 18:24:47 by eboulhou         ###   ########.fr       */
+/*   Updated: 2023/01/04 09:17:42 by eboulhou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,14 @@ void	send_sig(int sig, char *str)
 		j = 7;
 		while (j >= 0)
 		{
-			usleep(60);
+			usleep(20);
 			if (str[i] & (1 << j))
 				kill(sig, SIGUSR2);
 			else
 				kill(sig, SIGUSR1);
-			usleep(100);
 			j--;
 			signal(SIGUSR1, &response);
+			usleep(40);
 		}
 		i++;
 	}
@@ -82,5 +82,7 @@ int	main(int ac, char *argv[])
 	{
 		send_sig(ft_atoi (argv[1]), argv[2]);
 	}
+	else
+		write(1, "Example:./client [pid] [text]\n", 31);
 	return (0);
 }
